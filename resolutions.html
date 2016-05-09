@@ -10,22 +10,36 @@
         <input type="checkbox" checked={{hideFinished}}>
         Hide finished resolutions
       </label>
-      <form class="new-resolution">
-        <input type="text" name="title" placeholder="A new resolution"><input type="submit" class="addResolutin" value="Submit">
-      </form>
+      {{#if currentUser}}
+        <form class="new-resolution">
+          <input type="text" name="title" placeholder="A new resolution"><input type="submit" class="addResolutin" value="Submit">
+        </form>
+      {{/if}}
   </header>
     <ul>
       {{#each resolutions}}
         {{> resolution}}
       {{/each}}
     </ul>
+    {{> loginButtons}}
   </div>
 </body>
 
 <template name="resolution">
   <li class={{#if checked}}checked{{/if}}>
-    <input type="checkbox" checked={{checked}} class="toggle-checked">
+    {{#if isOwner}}
+      <input type="checkbox" checked={{checked}} class="toggle-checked">
+      <button class="toggle-private">
+        {{#if private}}
+          Private
+        {{else}}
+          Public
+        {{/if}}
+      </button>
+    {{/if}}
     <span class="text">{{title}}</span>
-    <button class="delete">Remove</button>
+    {{#if isOwner}}
+      <button class="delete">Remove</button>
+    {{/if}}
   </li>
 </template>
